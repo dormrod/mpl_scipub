@@ -1,6 +1,7 @@
 import numpy as np
+import matplotlib as mpl
 import matplotlib.pyplot as plt
-from properties import get_marker_styles
+from matplotlib.colors import Normalize
 
 
 class DataSet:
@@ -8,7 +9,7 @@ class DataSet:
 
     # Static variables to set different automatic styles for colours, markers etc.
     auto_id = 0
-    auto_markers = get_marker_styles()
+    auto_markers = mpl.markers.MarkerStyle().filled_markers
     auto_colours = plt.cm.get_cmap('Set1')
 
 
@@ -29,11 +30,12 @@ class DataSet:
         marker_size = kwargs.get('marker_size',10) # Float or array of floats
         colour = kwargs.get('colour',None) # Colour or array of floats
         colour_map = kwargs.get('colour_map',None)
+        colour_norm = kwargs.get('colour_norm',None) # Normalisation bounds
 
         # Set plot properties as default or from passed kwargs
         self.set_line(style=line_style,width=line_width)
         self.set_marker(style=marker_style,size=marker_size)
-        self.set_colour(c=colour,map=colour_map)
+        self.set_colour(c=colour,map=colour_map,norm=colour_norm)
 
         # Increment unique id
         self.__class__.auto_id += 1
@@ -56,7 +58,7 @@ class DataSet:
         self.marker_size = size
 
 
-    def set_colour(self,c=None,map=None):
+    def set_colour(self,c=None,map=None,norm=None):
         """Set as individual colour or map"""
 
         # No colour use map
@@ -70,11 +72,16 @@ class DataSet:
         elif isinstance(c,str):
             self.colour = c
             self.colour_map = None
-        # Use colour map with array of floats
+        # Use colour map with normalisation and colours as array of floats
         elif isinstance(c,np.ndarray):
             self.colour = c
             if map is not None:
                 self.colour_map = map
             else:
                 self.colour_map = 'coolwarm'
+            if norm is None:
+                self.colour_norm = Normalize(vmin=np.min(self.colour),vmax=np.max(self.colour))
+            else:
+                self.colour_norm = Normalize(vmin=norm[0],vmax=norm[1])
+
 

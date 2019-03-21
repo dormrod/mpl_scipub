@@ -1,10 +1,9 @@
-from plotter import Plot
-from dataset import DataSet
+from dormrod_mpl import DataSet, Plot
 import numpy as np
 
 random_xy1 = np.random.rand(100,2)
 random_xy2 = np.random.rand(100,2)
-random_ds1=DataSet(random_xy1,colour=np.ones(100))
+random_ds1=DataSet(random_xy1)
 random_ds2=DataSet(random_xy2)
 
 plot=Plot()

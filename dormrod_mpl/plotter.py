@@ -109,11 +109,14 @@ class Plot:
     def scatter_2d(self,dataset):
         """Scatter graph in 2D"""
 
-        self.ax.scatter(dataset.data[:,0], dataset.data[:,1], label = dataset.label,
-                         marker = dataset.marker_style, s = dataset.marker_size,
-                         color=dataset.colour)
-
-
+        if dataset.colour_map is None:
+            self.ax.scatter(dataset.data[:,0], dataset.data[:,1], label = dataset.label,
+                            marker = dataset.marker_style, s = dataset.marker_size,
+                            color=dataset.colour)
+        else:
+            self.ax.scatter(dataset.data[:,0], dataset.data[:,1], label = dataset.label,
+                            marker = dataset.marker_style, s = dataset.marker_size,
+                            c=dataset.colour,cmap=dataset.colour_map,norm=dataset.colour_norm)
 
 
     def finalise_plot(self):
