@@ -105,7 +105,7 @@ class Plot:
                 self.fig, self.ax = plt.subplots()
             elif self.dimensions == 3:
                 self.fig = plt.figure()
-                self.ax = Axes3D(self.fig)
+                self.ax = self.fig.add_subplot(111, projection='3d')
             self.initialised = True
 
 
@@ -129,6 +129,13 @@ class Plot:
                     self.heat_2d(dataset)
                 elif dataset.plot_type == 'contour':
                     self.contour_2d(dataset)
+        elif self.dimensions == 3:
+            self.initialise_plot()
+            for dataset in self.datasets:
+                if dataset.plot_type == 'scatter':
+                    self.scatter_3d(dataset)
+                elif dataset.plot_type == 'line':
+                    self.line_3d(dataset)
 
 
     def scatter_2d(self,dataset):
@@ -144,6 +151,19 @@ class Plot:
                             c=dataset.colour, cmap=dataset.colour_map, norm=dataset.colour_norm)
 
 
+    def scatter_3d(self,dataset):
+        """Scatter graph in 3D"""
+
+        if dataset.colour_map is None:
+            self.ax.scatter(dataset.data[:,0], dataset.data[:,1], dataset.data[:,2], label=dataset.label, zorder=dataset.zorder,
+                            marker=dataset.marker_style, s=dataset.marker_size,
+                            color=dataset.colour)
+        else:
+            self.ax.scatter(dataset.data[:,0], dataset.data[:,1], dataset.data[:,2], label=dataset.label, zorder=dataset.zorder,
+                            marker=dataset.marker_style, s=dataset.marker_size,
+                            c=dataset.colour, cmap=dataset.colour_map, norm=dataset.colour_norm)
+
+
     def line_2d(self,dataset):
         """Line graph in 2D"""
 
@@ -151,6 +171,15 @@ class Plot:
                       marker=dataset.marker_style, ms=dataset.marker_size,
                       lw=dataset.line_width, ls=dataset.line_style,
                       color=dataset.colour)
+
+
+    def line_3d(self,dataset):
+        """Line graph in 3D"""
+
+        self.ax.plot(dataset.data[:,0], dataset.data[:,1], dataset.data[:,2], label=dataset.label, zorder=dataset.zorder,
+                     marker=dataset.marker_style, ms=dataset.marker_size,
+                     lw=dataset.line_width, ls=dataset.line_style,
+                     color=dataset.colour)
 
 
     def errorbar_2d(self,dataset):

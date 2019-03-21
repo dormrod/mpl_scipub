@@ -91,7 +91,9 @@ class DataSet:
         """Set marker style and size"""
 
         if style is None:
-            if size>0:
+            if isinstance(size,np.ndarray):
+                self.marker_style = self.__class__.auto_markers[self.id]
+            elif size>0:
                 self.marker_style = self.__class__.auto_markers[self.id]
             else:
                 self.marker_style = None
@@ -103,6 +105,7 @@ class DataSet:
     def set_contours(self,levels=None,number=10,limits=None):
         """Set contour properties"""
 
+        # User defined levels take precedence, otherwise generate from data
         if levels is not None:
             self.contour_levels = levels
         else:
@@ -115,6 +118,7 @@ class DataSet:
     def set_colour(self,colour=None,map=None,norm=None):
         """Set as individual colour or map"""
 
+        # Require normalised colour map for certain plots
         if self.plot_type == 'heat' or self.plot_type == 'contour':
             if map is not None:
                 self.colour_map = map
