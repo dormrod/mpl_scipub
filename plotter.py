@@ -21,7 +21,7 @@ class Plot:
         self.set_plot_size() # Initialise plot size to 4x4cm
         self.set_text_size() # Initialise text size to 10pt
         self.set_dimensions() # 2D/3D plot
-        self.set_axes_properties() # Default axes labels
+        self.set_axes() # Default axes labels
 
 
     def set_plot_size(self, width = 4, height = 4):
@@ -47,10 +47,10 @@ class Plot:
         if dim<2 or dim>3:
             print("Must be 2D or 3D")
         else:
-            self._dimensions = dim
+            self.dimensions = dim
 
 
-    def set_axes_properties(self, **kwargs):
+    def set_axes(self, **kwargs):
         """Sets axes labels, limits and ticks etc."""
 
         self.axis_xlabel = kwargs.get("xlabel", "X")
@@ -85,10 +85,10 @@ class Plot:
         """Initialise axis and figure"""
 
         # Initialise plot if not already called as 2D or 3D plot
-        if self._initialised:
+        if self.initialised:
             pass
         else:
-            if self._dimensions == 2:
+            if self.dimensions == 2:
                 self.fig, self.ax = plt.subplots()
             elif self.dimensions == 3:
                 self.fig = plt.figure()
@@ -96,11 +96,30 @@ class Plot:
             self.initialised = True
 
 
+    def plot(self):
+        """Plot each data set"""
+
+        if self.dimensions == 2:
+            for dataset in self.datasets:
+                if dataset.plot_type == 'scatter':
+                    self.scatter_2d(dataset)
+
+
+    def scatter_2d(self,dataset):
+        """Scatter graph in 2D"""
+
+        self.ax.scatter(dataset.data[:,0], dataset.data[:,1], label = dataset.label,
+                         marker = dataset.marker_style, s = dataset.marker_size,
+                         color=dataset.colour)
+
+
+
+
     def finalise_plot(self):
         """Finalise plot properties - called when saved or visualised"""
 
         # Finalise plot if not already called
-        if self._finalised:
+        if self.finalised:
             pass
         else:
             # Axes properties
@@ -120,7 +139,7 @@ class Plot:
                 self.ax.yaxis.set_minor_locator(minorLocator)
             if self.axis_xlog: self.ax.set_xscale('log')
             if self.axis_ylog: self.ax.set_yscale('log')
-            if self._dimensions == 3:
+            if self.dimensions == 3:
                 # 3D additions
                 self.ax.set_zlabel(self.axis_zlabel)
                 if self.axis_zlim is not None: self.ax.set_zlim(self.axis_zlim)
@@ -130,7 +149,7 @@ class Plot:
                     self.ax.zaxis.set_major_locator(majorLocator)
                     self.ax.zaxis.set_minor_locator(minorLocator)
 
-            self._finalised = True
+            self.finalised = True
 
 
     ##### Save or visualise #####
