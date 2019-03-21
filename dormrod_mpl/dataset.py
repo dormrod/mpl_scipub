@@ -61,6 +61,15 @@ class DataSet:
         colour_norm = kwargs.get('colour_norm',None) # Normalisation bounds
         self.set_colour(colour=colour,map=colour_map,norm=colour_norm)
 
+        # Surface
+        self.surface_interpolation = kwargs.get('surface_interpolation',None)
+
+        # Contours
+        contour_levels = kwargs.get('contour_levels',None)
+        contour_number = kwargs.get('contour_number',10)
+        contour_limits = kwargs.get('contour_limits',None)
+        self.set_contours(levels=contour_levels,number=contour_number,limits=contour_limits)
+
         # Increment unique id
         self.__class__.auto_id += 1
 
@@ -91,8 +100,31 @@ class DataSet:
         self.marker_size = size
 
 
+    def set_contours(self,levels=None,number=10,limits=None):
+        """Set contour properties"""
+
+        if levels is not None:
+            self.contour_levels = levels
+        else:
+            if limits is not None:
+                self.contour_levels=np.linspace(limits[0],limits[1],number)
+            else:
+                self.contour_levels=np.linspace(np.min(self.data[2]),np.max(self.data[2]),number)
+
+
     def set_colour(self,colour=None,map=None,norm=None):
         """Set as individual colour or map"""
+
+        if self.plot_type == 'heat' or self.plot_type == 'contour':
+            if map is not None:
+                self.colour_map = map
+            else:
+                self.colour_map = 'coolwarm'
+            if norm is None:
+                self.colour_norm = Normalize(vmin=np.min(self.data[2]),vmax=np.max(self.data[2]))
+            else:
+                self.colour_norm = Normalize(vmin=norm[0],vmax=norm[1])
+            return
 
         # No colour use map
         if colour is None:

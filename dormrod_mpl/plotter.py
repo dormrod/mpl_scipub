@@ -125,6 +125,10 @@ class Plot:
                     self.errorshade_2d(dataset)
                 elif dataset.plot_type == 'bar':
                     self.bar_2d(dataset,i)
+                elif dataset.plot_type == 'heat':
+                    self.heat_2d(dataset)
+                elif dataset.plot_type == 'contour':
+                    self.contour_2d(dataset)
 
 
     def scatter_2d(self,dataset):
@@ -178,6 +182,26 @@ class Plot:
         self.ax.bar(data[:,0],data[:,1],label=dataset.label,zorder=dataset.zorder,
                     width=bw,color=dataset.colour,
                     xerr=dataset.error_x,yerr=dataset.error_y,error_kw={'zorder':dataset.zorder+self.num_datasets})
+
+
+    def heat_2d(self,dataset):
+        """Heat map"""
+
+        x = dataset.data[0]
+        y = dataset.data[1]
+        z = dataset.data[2]
+        self.ax.imshow(z,origin="lower",cmap=dataset.colour_map,norm=dataset.colour_norm,aspect='auto',
+                       extent=(np.min(x),np.max(x),np.min(y),np.max(y)),interpolation=dataset.surface_interpolation)
+
+
+    def contour_2d(self,dataset):
+        """Contour plot"""
+
+        x = dataset.data[0]
+        y = dataset.data[1]
+        z = dataset.data[2]
+        self.ax.contour(x, y, z,levels=dataset.contour_levels,cmap=dataset.colour_map,norm=dataset.colour_norm,
+                        linewidths=dataset.line_width,linestyles=dataset.line_style)
 
 
     def finalise_plot(self):
