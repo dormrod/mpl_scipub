@@ -22,6 +22,7 @@ class Plot:
         self.set_text_size() # Initialise text size to 10pt
         self.set_dimensions() # 2D/3D plot
         self.set_axes() # Default axes labels
+        self.set_legend() # No legend
 
 
     def set_plot_size(self, width = 4, height = 4):
@@ -31,14 +32,26 @@ class Plot:
         pylab.rcParams.update(params)
 
 
-    def set_text_size(self, font = 10, title = 10, label = 10):
+    def set_text_size(self, legend = 10, title = 10, label = 10):
         """Set font, title and label size"""
-        params = {"legend.fontsize": font,
+
+        params = {"legend.title_fontsize": legend,
+                  "legend.fontsize": legend,
                   "axes.labelsize": label,
                   "axes.titlesize": title,
                   "xtick.labelsize": label,
                   "ytick.labelsize": label}
         pylab.rcParams.update(params)
+
+
+    def set_legend(self,**kwargs):
+        """Set legend properties"""
+
+        self.legend = kwargs.get("legend", False)
+        self.legend_title = kwargs.get("title", None)
+        self.legend_columns = kwargs.get("cols", 1)
+        self.legend_anchor = kwargs.get("anchor", None)
+        self.legend_reverse = kwargs.get("reverse", False)
 
 
     def set_dimensions(self,dim=2):
@@ -200,6 +213,18 @@ class Plot:
                     minorLocator = ticker.MultipleLocator(self.axis_zticks[1])
                     self.ax.zaxis.set_major_locator(majorLocator)
                     self.ax.zaxis.set_minor_locator(minorLocator)
+            # Legend properties
+            if self.legend:
+                handles, labels = self.ax.get_legend_handles_labels()
+                if self.legend_reverse:
+                    handles = handles[::-1]
+                    labels = labels[::-1]
+                if self.legend_anchor is None:
+                    legend = self.ax.legend(handles, labels, title=self.legend_title, ncol=self.legend_columns)
+                else:
+                    legend = self.ax.legend(handles, labels, title=self.legend_title, ncol=self.legend_columns,
+                                             bbox_to_anchor=self.legend_anchor)
+                legend.get_frame().set_edgecolor('grey')
 
             self.finalised = True
 

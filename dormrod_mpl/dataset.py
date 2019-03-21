@@ -19,7 +19,7 @@ class DataSet:
         # Data
         self.id = self.__class__.auto_id # Set id for default properties
         self.data = np.array(data) # Ensure data stored as numpy array
-        self.label = kwargs.get('label','data') # Label for legend
+        self.label = kwargs.get('label','data_{}'.format(self.id)) # Label for legend
         self.zorder = kwargs.get('order',self.id) # Overlay order - default in order created
 
         # Data errors
@@ -59,7 +59,7 @@ class DataSet:
         colour = kwargs.get('colour',None) # Colour or array of floats
         colour_map = kwargs.get('colour_map',None)
         colour_norm = kwargs.get('colour_norm',None) # Normalisation bounds
-        self.set_colour(c=colour,map=colour_map,norm=colour_norm)
+        self.set_colour(colour=colour,map=colour_map,norm=colour_norm)
 
         # Increment unique id
         self.__class__.auto_id += 1
@@ -91,23 +91,23 @@ class DataSet:
         self.marker_size = size
 
 
-    def set_colour(self,c=None,map=None,norm=None):
+    def set_colour(self,colour=None,map=None,norm=None):
         """Set as individual colour or map"""
 
         # No colour use map
-        if c is None:
+        if colour is None:
             # No map use automatic map
             if map is not None:
                 self.__class__.auto_colours = plt.cm.get_cmap(map)
             self.colour = self.__class__.auto_colours(self.id)
             self.colour_map = None
         # Use single colour
-        elif isinstance(c,str):
-            self.colour = c
+        elif isinstance(colour,str):
+            self.colour = colour
             self.colour_map = None
         # Use colour map with normalisation and colours as array of floats
-        elif isinstance(c,np.ndarray):
-            self.colour = c
+        elif isinstance(colour,np.ndarray):
+            self.colour = colour
             if map is not None:
                 self.colour_map = map
             else:
