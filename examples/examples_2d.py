@@ -8,7 +8,8 @@ from dormrod_mpl.plotter import Plot
 
 # Random
 n_pnts = 100
-random_1d = np.random.rand(n_pnts)
+random_1d_a = np.random.rand(n_pnts)
+random_1d_b = np.random.rand(n_pnts)
 random_2d_a = np.random.rand(n_pnts,2)
 random_2d_b = np.random.rand(n_pnts,2)
 
@@ -146,17 +147,39 @@ def simple_bar():
     plot.display()
 
 
-if __name__ == '__main__':
+def simple_error():
+    """Example of a simple line graph with error bars, or line graph with shading"""
 
-    example = int(sys.argv[1])
+    # Make data set using errors
+    dataset_a = DataSet(gaussian,plot='error_bar',error_y=random_1d_a*0.1)
+    dataset_b = DataSet(gaussian,plot='error_shade',error_y=random_1d_a*0.1,order=0,colour='lightgrey')
+    dataset_c = DataSet(gaussian,plot='line',order=1,colour='firebrick')
+
+    # Make line graph with error bars
+    plot_bar = Plot()
+    plot_bar.add_dataset(dataset_a)
+    plot_bar.plot()
+    plot_bar.display()
+
+    # Make line graph with shaded errors
+    plot_shade = Plot()
+    plot_shade.add_dataset(dataset_b)
+    plot_shade.add_dataset(dataset_c)
+    plot_shade.plot()
+    plot_shade.display()
+
+
+if __name__ == '__main__':
 
     options = {
         0: simple_line,
         1: simple_scatter,
         2: advanced_line,
         3: scatter_and_line,
-        4: simple_bar
+        4: simple_bar,
+        5: simple_error,
     }
 
+    example = int(sys.argv[1])
     options[example]()
 
