@@ -101,22 +101,70 @@ class Plot:
 
         if self.dimensions == 2:
             self.initialise_plot()
-            for dataset in self.datasets:
+            for i,dataset in enumerate(self.datasets):
                 if dataset.plot_type == 'scatter':
                     self.scatter_2d(dataset)
+                elif dataset.plot_type == 'line':
+                    self.line_2d(dataset)
+                elif dataset.plot_type == 'error_bar':
+                    self.errorbar_2d(dataset)
+                elif dataset.plot_type == 'error_shade':
+                    self.errorshade_2d(dataset)
+                elif dataset.plot_type == 'bar':
+                    self.bar_2d(dataset,i)
 
 
     def scatter_2d(self,dataset):
         """Scatter graph in 2D"""
 
         if dataset.colour_map is None:
-            self.ax.scatter(dataset.data[:,0], dataset.data[:,1], label = dataset.label,
-                            marker = dataset.marker_style, s = dataset.marker_size,
+            self.ax.scatter(dataset.data[:,0], dataset.data[:,1], label=dataset.label, zorder=dataset.zorder,
+                            marker=dataset.marker_style, s=dataset.marker_size,
                             color=dataset.colour)
         else:
-            self.ax.scatter(dataset.data[:,0], dataset.data[:,1], label = dataset.label,
-                            marker = dataset.marker_style, s = dataset.marker_size,
-                            c=dataset.colour,cmap=dataset.colour_map,norm=dataset.colour_norm)
+            self.ax.scatter(dataset.data[:,0], dataset.data[:,1], label=dataset.label, zorder=dataset.zorder,
+                            marker=dataset.marker_style, s=dataset.marker_size,
+                            c=dataset.colour, cmap=dataset.colour_map, norm=dataset.colour_norm)
+
+
+    def line_2d(self,dataset):
+        """Line graph in 2D"""
+
+        self.ax.plot(dataset.data[:,0], dataset.data[:,1], label=dataset.label, zorder=dataset.zorder,
+                      marker=dataset.marker_style, ms=dataset.marker_size,
+                      lw=dataset.line_width, ls=dataset.line_style,
+                      color=dataset.colour)
+
+
+    def errorbar_2d(self,dataset):
+        """Line graph with symmetric errors in 2D"""
+
+        self.ax.errorbar(dataset.data[:,0], dataset.data[:,1], xerr=dataset.error_x, yerr=dataset.error_y,
+                     label= dataset.label, zorder=dataset.zorder,
+                     marker=dataset.marker_style, ms=dataset.marker_size,
+                     lw=dataset.line_width, ls=dataset.line_style,
+                     color=dataset.colour)
+
+
+    def errorshade_2d(self,dataset):
+        """Line graph with shaded region indicating y error"""
+
+        data = dataset.data
+        y1 = data[:,1] - dataset.error_y
+        y2 = data[:,1] + dataset.error_y
+        self.ax.fill_between(data[:,0],y1=y1,y2=y2,label=dataset.label, zorder=dataset.zorder, color=dataset.colour)
+
+
+    def bar_2d(self,dataset,shift):
+        """Bar graph"""
+
+        total_bw = dataset.bar_width
+        bw = total_bw/self.num_datasets
+        data = dataset.data
+        data[:,0] = data[:,0] - total_bw/2 + bw/2 + shift*bw
+        self.ax.bar(data[:,0],data[:,1],label=dataset.label,zorder=dataset.zorder,
+                    width=bw,color=dataset.colour,
+                    xerr=dataset.error_x,yerr=dataset.error_y,error_kw={'zorder':dataset.zorder+self.num_datasets})
 
 
     def finalise_plot(self):

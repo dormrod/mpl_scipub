@@ -16,25 +16,49 @@ class DataSet:
     def __init__(self,data,**kwargs):
         """Initialise with data and plot properties"""
 
-        # Get data
+        # Data
         self.id = self.__class__.auto_id # Set id for default properties
         self.data = np.array(data) # Ensure data stored as numpy array
         self.label = kwargs.get('label','data') # Label for legend
+        self.zorder = kwargs.get('order',self.id) # Overlay order - default in order created
 
-        # Unpack plot options
-        self.plot_type = kwargs.get('plot','scatter') # Plot type
-        self.zorder = kwargs.get('zorder',1) # Overlay order
+        # Data errors
+        self.error_x = kwargs.get('error_x',None)
+        self.error_y = kwargs.get('error_y',None)
+        self.error_style = kwargs.get('error_style','bar')
+
+        # Choose suitable default plot type or get user choice
+        if isinstance(self.error_x,np.ndarray) or isinstance(self.error_y,np.ndarray):
+            if self.error_style == 'bar':
+                default_plot_type = 'error_bar'
+            else:
+                default_plot_type = 'error_shade'
+        else:
+            default_plot_type = 'line'
+        self.plot_type = kwargs.get('plot',default_plot_type)
+
+        # Markers
+        if self.plot_type == 'scatter':
+            default_marker_size = 10
+        else:
+            default_marker_size = 0
+        marker_style = kwargs.get('marker_style',None)
+        marker_size = kwargs.get('marker_size',default_marker_size) # Float or array of floats
+        self.set_marker(style=marker_style,size=marker_size)
+
+        # Line
         line_style = kwargs.get('line_style','-')
         line_width = kwargs.get('line_width',1)
-        marker_style = kwargs.get('marker_style',None)
-        marker_size = kwargs.get('marker_size',10) # Float or array of floats
+        self.set_line(style=line_style,width=line_width)
+
+        # Bar
+        bar_width = kwargs.get('bar_width',1)
+        self.set_bar(width=bar_width)
+
+        # Colours
         colour = kwargs.get('colour',None) # Colour or array of floats
         colour_map = kwargs.get('colour_map',None)
         colour_norm = kwargs.get('colour_norm',None) # Normalisation bounds
-
-        # Set plot properties as default or from passed kwargs
-        self.set_line(style=line_style,width=line_width)
-        self.set_marker(style=marker_style,size=marker_size)
         self.set_colour(c=colour,map=colour_map,norm=colour_norm)
 
         # Increment unique id
@@ -48,11 +72,20 @@ class DataSet:
         self.line_width = width
 
 
+    def set_bar(self,width=1):
+        """Set bar width"""
+
+        self.bar_width = width
+
+
     def set_marker(self,style=None,size=10):
         """Set marker style and size"""
 
         if style is None:
-            self.marker_style = self.__class__.auto_markers[self.id]
+            if size>0:
+                self.marker_style = self.__class__.auto_markers[self.id]
+            else:
+                self.marker_style = None
         else:
             self.marker_style = style
         self.marker_size = size
