@@ -100,6 +100,7 @@ class Plot:
         """Plot each data set"""
 
         if self.dimensions == 2:
+            self.initialise_plot()
             for dataset in self.datasets:
                 if dataset.plot_type == 'scatter':
                     self.scatter_2d(dataset)
@@ -159,6 +160,8 @@ class Plot:
 
         self.finalise_plot() # Apply final changes to plot
         plt.show()
+        self.initialised = False
+        self.finalised = False
 
 
     def save(self, name="plot", fmt="pdf", dpi_quality=400):
