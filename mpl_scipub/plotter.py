@@ -35,7 +35,11 @@ class Plot:
 
 
     def set_text(self, font='serif', latex=False, legend = 10, title = 10, label = 10):
-        """Set font and text size."""
+        """
+        Set font and text size.
+        :param latex: enable latex formatting - this is slower to render image but can give better fonts 
+        :type latex: bool
+        """
 
         if latex:
             params = {
@@ -88,7 +92,7 @@ class Plot:
         :param reverse: reverse order of legend 
         :type reverse: bool
         :param location: location ('upper left' etc.)
-        :param location: str
+        :type location: str
         """
 
         self.legend = kwargs.get("legend", False)

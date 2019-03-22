@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Tutorial &mdash; dormrod_mpl 0.01 documentation</title>
+  <title>Tutorial &mdash; mpl_scipub 0.01 documentation</title>
   
 
   
@@ -50,7 +50,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home"> dormrod_mpl
+            <a href="index.html" class="icon icon-home"> mpl_scipub
           
 
           
@@ -103,7 +103,7 @@
       <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">dormrod_mpl</a>
+          <a href="index.html">mpl_scipub</a>
         
       </nav>
 
@@ -162,7 +162,7 @@ These sets can then be added to a <code class="docutils literal notranslate"><sp
 <h2>The DataSet Class<a class="headerlink" href="#the-dataset-class" title="Permalink to this headline">¶</a></h2>
 <p>A simple example of of making two data sets is as follows:</p>
 <div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">dormrod_mpl.dataset</span> <span class="k">import</span> <span class="n">DataSet</span>
+<span class="kn">from</span> <span class="nn">mpl_scipub.dataset</span> <span class="k">import</span> <span class="n">DataSet</span>
 
 <span class="c1"># Generate data</span>
 <span class="n">cosine</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">100</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
@@ -186,13 +186,12 @@ These sets can then be added to a <code class="docutils literal notranslate"><sp
 </div>
 <p>The list of methods is given below.</p>
 <dl class="class">
-<dt id="dormrod_mpl.dataset.DataSet">
-<em class="property">class </em><code class="descclassname">dormrod_mpl.dataset.</code><code class="descname">DataSet</code><span class="sig-paren">(</span><em>data</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dormrod_mpl/dataset.html#DataSet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dormrod_mpl.dataset.DataSet" title="Permalink to this definition">¶</a></dt>
+<dt id="mpl_scipub.dataset.DataSet">
+<em class="property">class </em><code class="descclassname">mpl_scipub.dataset.</code><code class="descname">DataSet</code><span class="sig-paren">(</span><em>data</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mpl_scipub/dataset.html#DataSet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mpl_scipub.dataset.DataSet" title="Permalink to this definition">¶</a></dt>
 <dd><p>Holds data set and associated plot options.</p>
-<p>Can be initialised with</p>
 <dl class="method">
-<dt id="dormrod_mpl.dataset.DataSet.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>data</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dormrod_mpl/dataset.html#DataSet.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dormrod_mpl.dataset.DataSet.__init__" title="Permalink to this definition">¶</a></dt>
+<dt id="mpl_scipub.dataset.DataSet.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>data</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mpl_scipub/dataset.html#DataSet.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mpl_scipub.dataset.DataSet.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Data as numpy array. Format depends on plot type but usually (n_points,2) for 2D plot and (n_points,3) for 3D plot.
 Can specifiy plot options through kwargs now, or later through setters.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -202,6 +201,9 @@ Can specifiy plot options through kwargs now, or later through setters.</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>data</strong> (<em>np.ndarray</em>) – x,y,(z) data</li>
 <li><strong>error_y</strong> (<em>np.ndarray with n_points</em>) – symmetric errors in given direction</li>
+<li><strong>error_width</strong> (<em>float</em>) – width of error bars</li>
+<li><strong>error_interval</strong> (<em>int</em>) – errors every n points</li>
+<li><strong>error_cap</strong> (<em>int</em>) – error cap size</li>
 <li><strong>plot</strong> (<em>str</em>) – type of plot (line, scatter, bar ,error_bar, error_shade, heat, contour)</li>
 <li><strong>label</strong> (<em>str</em>) – data label for legend</li>
 <li><strong>order</strong> (<em>int</em>) – ordering of overlaid datasets, higher number on top</li>
@@ -225,32 +227,38 @@ Can specifiy plot options through kwargs now, or later through setters.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="dormrod_mpl.dataset.DataSet.set_bar">
-<code class="descname">set_bar</code><span class="sig-paren">(</span><em>width=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dormrod_mpl/dataset.html#DataSet.set_bar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dormrod_mpl.dataset.DataSet.set_bar" title="Permalink to this definition">¶</a></dt>
+<dt id="mpl_scipub.dataset.DataSet.set_bar">
+<code class="descname">set_bar</code><span class="sig-paren">(</span><em>width=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mpl_scipub/dataset.html#DataSet.set_bar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mpl_scipub.dataset.DataSet.set_bar" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set bar width.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="dormrod_mpl.dataset.DataSet.set_colour">
-<code class="descname">set_colour</code><span class="sig-paren">(</span><em>colour=None</em>, <em>map=None</em>, <em>norm=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dormrod_mpl/dataset.html#DataSet.set_colour"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dormrod_mpl.dataset.DataSet.set_colour" title="Permalink to this definition">¶</a></dt>
+<dt id="mpl_scipub.dataset.DataSet.set_colour">
+<code class="descname">set_colour</code><span class="sig-paren">(</span><em>colour=None</em>, <em>map=None</em>, <em>norm=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mpl_scipub/dataset.html#DataSet.set_colour"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mpl_scipub.dataset.DataSet.set_colour" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set colour as individual or map.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="dormrod_mpl.dataset.DataSet.set_contours">
-<code class="descname">set_contours</code><span class="sig-paren">(</span><em>levels=None</em>, <em>number=10</em>, <em>limits=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dormrod_mpl/dataset.html#DataSet.set_contours"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dormrod_mpl.dataset.DataSet.set_contours" title="Permalink to this definition">¶</a></dt>
+<dt id="mpl_scipub.dataset.DataSet.set_contours">
+<code class="descname">set_contours</code><span class="sig-paren">(</span><em>levels=None</em>, <em>number=10</em>, <em>limits=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mpl_scipub/dataset.html#DataSet.set_contours"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mpl_scipub.dataset.DataSet.set_contours" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set contour properties.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="dormrod_mpl.dataset.DataSet.set_line">
-<code class="descname">set_line</code><span class="sig-paren">(</span><em>style='-'</em>, <em>width=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dormrod_mpl/dataset.html#DataSet.set_line"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dormrod_mpl.dataset.DataSet.set_line" title="Permalink to this definition">¶</a></dt>
+<dt id="mpl_scipub.dataset.DataSet.set_error">
+<code class="descname">set_error</code><span class="sig-paren">(</span><em>width=None</em>, <em>interval=1</em>, <em>cap=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mpl_scipub/dataset.html#DataSet.set_error"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mpl_scipub.dataset.DataSet.set_error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set error width, interval and capsize</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mpl_scipub.dataset.DataSet.set_line">
+<code class="descname">set_line</code><span class="sig-paren">(</span><em>style='-'</em>, <em>width=2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mpl_scipub/dataset.html#DataSet.set_line"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mpl_scipub.dataset.DataSet.set_line" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set line style and width.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="dormrod_mpl.dataset.DataSet.set_marker">
-<code class="descname">set_marker</code><span class="sig-paren">(</span><em>style=None</em>, <em>size=10</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dormrod_mpl/dataset.html#DataSet.set_marker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dormrod_mpl.dataset.DataSet.set_marker" title="Permalink to this definition">¶</a></dt>
+<dt id="mpl_scipub.dataset.DataSet.set_marker">
+<code class="descname">set_marker</code><span class="sig-paren">(</span><em>style=None</em>, <em>size=10</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mpl_scipub/dataset.html#DataSet.set_marker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mpl_scipub.dataset.DataSet.set_marker" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set marker style and size.</p>
 </dd></dl>
 
@@ -260,7 +268,7 @@ Can specifiy plot options through kwargs now, or later through setters.</p>
 <div class="section" id="the-plot-class">
 <h2>The Plot Class<a class="headerlink" href="#the-plot-class" title="Permalink to this headline">¶</a></h2>
 <p>The data sets abbove can be plotted using the plot class as follows:</p>
-<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dormrod_mpl.plotter</span> <span class="k">import</span> <span class="n">Plot</span>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">mpl_scipub.plotter</span> <span class="k">import</span> <span class="n">Plot</span>
 
 <span class="c1"># Make Plot class and add DataSets</span>
 <span class="n">plot</span> <span class="o">=</span> <span class="n">Plot</span><span class="p">()</span>
@@ -282,7 +290,7 @@ Can specifiy plot options through kwargs now, or later through setters.</p>
 <p>The list methods is given below.</p>
 <dl class="class">
 <dt id="dormrod_mpl.plotter.Plot">
-<em class="property">class </em><code class="descclassname">dormrod_mpl.plotter.</code><code class="descname">Plot</code><a class="reference internal" href="_modules/dormrod_mpl/plotter.html#Plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dormrod_mpl.plotter.Plot" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">dormrod_mpl.plotter.</code><code class="descname">Plot</code><span class="sig-paren">(</span><em>dim=2</em>, <em>elevation=None</em>, <em>angle=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dormrod_mpl/plotter.html#Plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dormrod_mpl.plotter.Plot" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot DataSet objects with matplotlib.</p>
 <dl class="method">
 <dt id="dormrod_mpl.plotter.Plot.add_dataset">
@@ -344,9 +352,11 @@ Can specifiy plot options through kwargs now, or later through setters.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>legend</strong> (<em>bool</em>) – turn legend on or off</li>
-<li><strong>legend_title</strong> (<em>str</em>) – set legend title</li>
-<li><strong>legend_columns</strong> (<em>int</em>) – number of columns in legend</li>
-<li><strong>legend_reverse</strong> (<em>bool</em>) – reverse order of legend</li>
+<li><strong>title</strong> (<em>str</em>) – set legend title</li>
+<li><strong>columns</strong> (<em>int</em>) – number of columns in legend</li>
+<li><strong>reverse</strong> (<em>bool</em>) – reverse order of legend</li>
+<li><strong>location</strong> – location (‘upper left’ etc.)</li>
+<li><strong>location</strong> – str</li>
 </ul>
 </td>
 </tr>
@@ -361,9 +371,15 @@ Can specifiy plot options through kwargs now, or later through setters.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="dormrod_mpl.plotter.Plot.set_text_size">
-<code class="descname">set_text_size</code><span class="sig-paren">(</span><em>legend=10</em>, <em>title=10</em>, <em>label=10</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dormrod_mpl/plotter.html#Plot.set_text_size"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dormrod_mpl.plotter.Plot.set_text_size" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set text size.</p>
+<dt id="dormrod_mpl.plotter.Plot.set_text">
+<code class="descname">set_text</code><span class="sig-paren">(</span><em>font='serif'</em>, <em>latex=False</em>, <em>legend=10</em>, <em>title=10</em>, <em>label=10</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dormrod_mpl/plotter.html#Plot.set_text"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dormrod_mpl.plotter.Plot.set_text" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set font and text size.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dormrod_mpl.plotter.Plot.set_view">
+<code class="descname">set_view</code><span class="sig-paren">(</span><em>elevation=None</em>, <em>angle=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dormrod_mpl/plotter.html#Plot.set_view"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dormrod_mpl.plotter.Plot.set_view" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set view in 3D plot.</p>
 </dd></dl>
 
 </dd></dl>

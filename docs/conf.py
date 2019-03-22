@@ -19,7 +19,7 @@ sys.path.insert(0, os.path.abspath('../'))
 
 # -- Project information -----------------------------------------------------
 
-project = 'dormrod_mpl'
+project = 'mpl_scipub'
 copyright = '2019, dormrod'
 author = 'dormrod'
 
@@ -132,7 +132,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'dormrod_mpl.tex', 'dormrod\\_mpl Documentation',
+    (master_doc, 'mpl_scipub.tex', 'dormrod\\_mpl Documentation',
      'dormrod', 'manual'),
 ]
 
@@ -142,7 +142,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'dormrod_mpl', 'dormrod_mpl Documentation',
+    (master_doc, 'mpl_scipub', 'mpl_scipub Documentation',
      [author], 1)
 ]
 
@@ -153,8 +153,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'dormrod_mpl', 'dormrod_mpl Documentation',
-     author, 'dormrod_mpl', 'One line description of project.',
+    (master_doc, 'mpl_scipub', 'mpl_scipub Documentation',
+     author, 'mpl_scipub', 'One line description of project.',
      'Miscellaneous'),
 ]
 

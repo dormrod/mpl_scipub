@@ -1,11 +1,6 @@
-.. dormrod_mpl documentation master file, created by
-   sphinx-quickstart on Fri Mar 22 08:28:51 2019.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
-
-dormrod_mpl
+mpl-scipub
 =======================================
-This is a package I developed during my PhD to try and simplify plotting with matplotlib.
+This is a package I developed during my PhD to try and simplify plotting with matplotlib, and generate publication-ready figures.
 It replaces some of the idiosyncrasies of matplotlib's different plot types with a common interface,
 and has support for 2D and 3D plotting.
 

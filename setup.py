@@ -1,10 +1,10 @@
 from setuptools import setup
 
-setup(name='dormrod_mpl',
-      version='0.1',
-      description='Wrapper for painless plotting with matplotlib',
-      url='https://github.com/dormrod/matplotlib_wrapper',
+setup(name='mpl_scipub',
+      version='0.01',
+      description='Pacakge for painless plotting with matplotlib, making publication-ready plots',
+      url='https://github.com/dormrod/mpl_scipub',
       author='dormrod',
       license='MIT',
-      packages=['dormrod_mpl'],
+      packages=['mpl_scipub'],
       zip_safe=False)

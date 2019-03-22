@@ -1,7 +1,7 @@
 import numpy as np
 import sys
-from dormrod_mpl.dataset import DataSet
-from dormrod_mpl.plotter import Plot
+from mpl_scipub.dataset import DataSet
+from mpl_scipub.plotter import Plot
 
 
 ##### Example data #####

@@ -1,6 +1,6 @@
 import numpy as np
-from dormrod_mpl.dataset import DataSet
-from dormrod_mpl.plotter import Plot
+from mpl_scipub.dataset import DataSet
+from mpl_scipub.plotter import Plot
 
 # Generate data
 cosine = np.zeros((100,2))
@@ -29,6 +29,7 @@ plot.add_dataset(dataset_b)
 
 # Adjust plot properties
 plot.set_axes(xlim=(0,10),xticks=(1,0.2),yticks=(0.2,0.05),xlabel=r'$x$',ylabel=r'$f\left(x\right)$') # Latex-style labels
+
 
 # Plot graphs
 plot.plot()
