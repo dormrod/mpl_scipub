@@ -24,7 +24,7 @@ class Plot:
         self.set_axes() # Default axes labels
         self.set_legend() # No legend
         self.set_view(elevation=elevation,angle=angle) # Orientation for 3D plot
-
+        pylab.rcParams['axes.xmargin'] = 0.0 # Remove padding on x-axis
 
     def set_plot_size(self, width = 4, height = 4):
         """Set plot size in cm."""
@@ -33,19 +33,45 @@ class Plot:
         pylab.rcParams.update(params)
 
 
-    def set_text(self, font='serif', legend = 10, title = 10, label = 10):
+    def set_text(self, font='serif', latex=False, legend = 10, title = 10, label = 10):
         """Set font and text size."""
-        print(pylab.rcParams)
-        params = {
-                'font.family' : font,
+
+        if latex:
+            params = {
+                'font.family' : 'serif',
+                'font.serif' : 'STIX',
+                'mathtext.fontset' : 'stix',
+                'text.usetex' : True,
                 'legend.title_fontsize': legend,
                 'legend.fontsize': legend,
                 'axes.labelsize': label,
                 'axes.titlesize': title,
                 'xtick.labelsize': label,
                 'ytick.labelsize': label
-        }
+            }
+        elif font == 'serif':
+            params = {
+                'font.family' : font,
+                'font.serif' : 'DejaVu Serif',
+                'mathtext.fontset' : 'dejavuserif',
+                'legend.title_fontsize': legend,
+                'legend.fontsize': legend,
+                'axes.labelsize': label,
+                'axes.titlesize': title,
+                'xtick.labelsize': label,
+                'ytick.labelsize': label
+            }
+        else:
+            params = {
+                'legend.title_fontsize': legend,
+                'legend.fontsize': legend,
+                'axes.labelsize': label,
+                'axes.titlesize': title,
+                'xtick.labelsize': label,
+                'ytick.labelsize': label
+            }
         pylab.rcParams.update(params)
+
 
 
     def set_legend(self,**kwargs):
@@ -92,9 +118,9 @@ class Plot:
         :type xlog: bool
         """
 
-        self.axis_xlabel = kwargs.get("xlabel", "X")
-        self.axis_ylabel = kwargs.get("ylabel", "Y")
-        self.axis_zlabel = kwargs.get("zlabel", "Z")
+        self.axis_xlabel = kwargs.get("xlabel", r"$x$")
+        self.axis_ylabel = kwargs.get("ylabel", r"$y$")
+        self.axis_zlabel = kwargs.get("zlabel", r"$z$")
         self.axis_xlim = kwargs.get("xlim", None)
         self.axis_ylim = kwargs.get("ylim", None)
         self.axis_zlim = kwargs.get("zlim", None)

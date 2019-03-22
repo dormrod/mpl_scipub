@@ -88,7 +88,7 @@ class DataSet:
 
         # Line
         line_style = kwargs.get('line_style','-')
-        line_width = kwargs.get('line_width',1)
+        line_width = kwargs.get('line_width',2)
         self.set_line(style=line_style,width=line_width)
 
         # Bar
@@ -114,7 +114,7 @@ class DataSet:
         self.__class__.auto_id += 1
 
 
-    def set_line(self,style='-',width=1):
+    def set_line(self,style='-',width=2):
         """Set line style and width."""
 
         self.line_style = style
