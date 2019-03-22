@@ -140,7 +140,7 @@ def simple_bar():
     plot.add_dataset(dataset_c)
     plot.set_axes(xticks=(1,1),ylim=(0,15))
     plot.set_legend(legend=True)
-    plot.set_text_size(legend=8)
+    plot.set_text(legend=8)
 
     # Plot graph and display
     plot.plot()

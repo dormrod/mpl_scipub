@@ -11,7 +11,7 @@ class Plot:
 
     ##### Functions to control plot settings #####
 
-    def __init__(self):
+    def __init__(self,dim=2,elevation=None,angle=None):
         """Set default parameters"""
 
         self.num_datasets = 0 # Total number of added data sets
@@ -19,10 +19,11 @@ class Plot:
         self.initialised = False # Figure and axes initialised
         self.finalised = False # Final plot properties adjusted
         self.set_plot_size() # Initialise plot size to 4x4cm
-        self.set_text_size() # Initialise text size to 10pt
-        self.set_dimensions() # 2D/3D plot
+        self.set_text() # Initialise text size to 10pt
+        self.set_dimensions(dim=dim) # 2D/3D plot
         self.set_axes() # Default axes labels
         self.set_legend() # No legend
+        self.set_view(elevation=elevation,angle=angle) # Orientation for 3D plot
 
 
     def set_plot_size(self, width = 4, height = 4):
@@ -32,15 +33,18 @@ class Plot:
         pylab.rcParams.update(params)
 
 
-    def set_text_size(self, legend = 10, title = 10, label = 10):
-        """Set text size."""
-
-        params = {"legend.title_fontsize": legend,
-                  "legend.fontsize": legend,
-                  "axes.labelsize": label,
-                  "axes.titlesize": title,
-                  "xtick.labelsize": label,
-                  "ytick.labelsize": label}
+    def set_text(self, font='serif', legend = 10, title = 10, label = 10):
+        """Set font and text size."""
+        print(pylab.rcParams)
+        params = {
+                'font.family' : font,
+                'legend.title_fontsize': legend,
+                'legend.fontsize': legend,
+                'axes.labelsize': label,
+                'axes.titlesize': title,
+                'xtick.labelsize': label,
+                'ytick.labelsize': label
+        }
         pylab.rcParams.update(params)
 
 
@@ -102,6 +106,13 @@ class Plot:
         self.axis_zlog = kwargs.get("zlog", False)
 
 
+    def set_view(self,elevation=None,angle=None):
+        """Set view in 3D plot."""
+
+        self.view_elevation = elevation
+        self.view_angle = angle
+
+
     ##### Functions to add data sets #####
 
     def add_dataset(self,dataset):
@@ -158,6 +169,10 @@ class Plot:
                     self.scatter_3d(dataset)
                 elif dataset.plot_type == 'line':
                     self.line_3d(dataset)
+                elif dataset.plot_type == 'surface_mesh':
+                    self.surfacemesh_3d(dataset)
+                elif dataset.plot_type == 'surface_points':
+                    self.surfacepoints_3d(dataset)
 
 
     def scatter_2d(self,dataset):
@@ -248,11 +263,22 @@ class Plot:
     def contour_2d(self,dataset):
         """Contour plot"""
 
-        x = dataset.data[0]
-        y = dataset.data[1]
-        z = dataset.data[2]
-        self.ax.contour(x, y, z,levels=dataset.contour_levels,cmap=dataset.colour_map,norm=dataset.colour_norm,
+        self.ax.contour(dataset.data[0],dataset.data[1],dataset.data[2],levels=dataset.contour_levels,cmap=dataset.colour_map,norm=dataset.colour_norm,
                         linewidths=dataset.line_width,linestyles=dataset.line_style)
+
+
+    def surfacemesh_3d(self,dataset):
+        """Surface plot in 3D using mesh"""
+
+        self.ax.plot_surface(dataset.data[0],dataset.data[1],dataset.data[2],label=dataset.label, zorder=dataset.zorder,
+                     cmap=dataset.colour_map,norm=dataset.colour_norm)
+
+
+    def surfacepoints_3d(self,dataset):
+        """Surface plot in 3D using points"""
+
+        self.ax.plot_trisurf(dataset.data[:,0],dataset.data[:,0],dataset.data[:,2],label=dataset.label,zorder=dataset.zorder,
+                             cmap=dataset.colour_map,norm=dataset.colour_norm)
 
 
     def finalise_plot(self):
@@ -288,6 +314,20 @@ class Plot:
                     minorLocator = ticker.MultipleLocator(self.axis_zticks[1])
                     self.ax.zaxis.set_major_locator(majorLocator)
                     self.ax.zaxis.set_minor_locator(minorLocator)
+                if self.axis_zlog: self.ax.set_zscale('log')
+                # Set 3D specific options
+                self.ax.view_init(elev=self.view_elevation,azim=self.view_angle)
+                # Remove coloured panes and adjust grid
+                # self.ax.grid(False)
+                self.ax.xaxis.pane.fill = False
+                self.ax.yaxis.pane.fill = False
+                self.ax.zaxis.pane.fill = False
+                self.ax.xaxis.pane.set_edgecolor('k')
+                self.ax.yaxis.pane.set_edgecolor('k')
+                self.ax.zaxis.pane.set_edgecolor('k')
+                self.ax.xaxis.pane.set_alpha(1)
+                self.ax.yaxis.pane.set_alpha(1)
+                self.ax.zaxis.pane.set_alpha(1)
             # Legend properties
             if self.legend:
                 handles, labels = self.ax.get_legend_handles_labels()
@@ -320,6 +360,9 @@ class Plot:
 
         self.finalise_plot() # Apply final changes to plot
         filename = name+"."+fmt
-        plt.savefig(filename, dpi=dpi_quality, bbox_inches="tight")
+        if self.dimensions == 2:
+            plt.savefig(filename, dpi=dpi_quality, bbox_inches="tight")
+        elif self.dimensions == 3: # Prevent cutoff
+            plt.savefig(filename, dpi=dpi_quality)
 
 

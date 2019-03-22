@@ -7,9 +7,6 @@ from matplotlib.colors import Normalize
 class DataSet:
     """
     Holds data set and associated plot options. 
-    
-    Can be initialised with 
-    
     """
 
     # Static variables to set different automatic styles for colours, markers etc.
@@ -162,7 +159,7 @@ class DataSet:
         """Set colour as individual or map."""
 
         # Require normalised colour map for certain plots
-        if self.plot_type == 'heat' or self.plot_type == 'contour':
+        if self.plot_type == 'heat' or self.plot_type == 'contour' or self.plot_type == 'surface_mesh' or self.plot_type == 'surface_points':
             if map is not None:
                 self.colour_map = map
             else:

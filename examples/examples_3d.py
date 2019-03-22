@@ -22,6 +22,8 @@ heart_y = 13.0*np.cos(heart_z)-5.0*np.cos(2.0*heart_z)-2.0*np.cos(3.0*heart_z)-n
 heart[:,0] = heart_x
 heart[:,1] = heart_y
 heart[:,2] = heart_z
+mesh_x, mesh_y = np.meshgrid(np.arange(-1,1,0.1),np.arange(-2,2,0.1))
+func_1 = (mesh_x**2+mesh_y**2)*np.exp(-(mesh_x**2+mesh_y**2))
 
 ##### Examples #####
 
@@ -59,11 +61,41 @@ def simple_scatter():
     plot.display()
 
 
+def simple_surface():
+    """Example of surface plot, using either mesh or points"""
+
+    # Make dataset with data provided as [x,y,z], where x,y,z, are meshes
+    dataset_a = DataSet([mesh_x,mesh_y,func_1],plot='surface_mesh',colour_map='Blues')
+
+    # Make plot and add data
+    plot = Plot(dim=3,elevation=20,angle=130)
+    plot.add_dataset(dataset_a)
+
+    # Plot graph and display
+    plot.plot()
+    plot.set_axes(xlim=(-1.05,1.05),ylim=(-2.05,2.05),zlim=(-0.55,0.55))
+    plot.display()
+
+    # Make dataset with data provided as (n,3)
+    dataset_b = DataSet(random_3d_b,plot='surface_points',colour_map='Reds')
+
+    # Make plot and add data
+    plot = Plot(dim=3,elevation=20,angle=130)
+    plot.add_dataset(dataset_a)
+
+    # Plot graph and display
+    plot.plot()
+    # plot.set_axes(xlim=(-1.05,1.05),ylim=(-2.05,2.05),zlim=(-0.55,0.55))
+    plot.display()
+
+
+
 if __name__ == '__main__':
 
     options = {
         0: simple_line,
-        1: simple_scatter
+        1: simple_scatter,
+        2: simple_surface,
         # 2: advanced_line,
         # 3: scatter_and_line,
         # 4: simple_bar,
