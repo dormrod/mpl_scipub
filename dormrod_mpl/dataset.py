@@ -24,6 +24,12 @@ class DataSet:
         :type data: np.ndarray
         :param error_y: symmetric errors in given direction
         :type error_y: np.ndarray with n_points
+        :param error_width: width of error bars 
+        :type error_width: float
+        :param error_interval: errors every n points 
+        :type error_interval: int
+        :param error_cap: error cap size 
+        :type error_cap: int 
         :param plot: type of plot (line, scatter, bar ,error_bar, error_shade, heat, contour)
         :type plot: str
         :param label: data label for legend
@@ -62,20 +68,17 @@ class DataSet:
         self.label = kwargs.get('label','data_{}'.format(self.id)) # Label for legend
         self.zorder = kwargs.get('order',self.id) # Overlay order - default in order created
 
-        # Data errors
+        # Choose suitable default plot type or get user choice
+        default_plot_type = 'line'
+        self.plot_type = kwargs.get('plot',default_plot_type)
+
+        # Errors
         self.error_x = kwargs.get('error_x',None)
         self.error_y = kwargs.get('error_y',None)
-        self.error_style = kwargs.get('error_style','bar')
-
-        # Choose suitable default plot type or get user choice
-        if isinstance(self.error_x,np.ndarray) or isinstance(self.error_y,np.ndarray):
-            if self.error_style == 'bar':
-                default_plot_type = 'error_bar'
-            else:
-                default_plot_type = 'error_shade'
-        else:
-            default_plot_type = 'line'
-        self.plot_type = kwargs.get('plot',default_plot_type)
+        error_width = kwargs.get('error_width',None)
+        error_interval = kwargs.get('error_interval',1)
+        error_cap = kwargs.get('error_cap',1)
+        self.set_error(width=error_width,interval=error_interval,cap=error_cap)
 
         # Markers
         if self.plot_type == 'scatter':
@@ -140,6 +143,14 @@ class DataSet:
         else:
             self.marker_style = style
         self.marker_size = size
+
+
+    def set_error(self,width=None,interval=1,cap=1):
+        """Set error width, interval and capsize"""
+
+        self.error_width = width
+        self.error_interval = interval
+        self.error_cap = cap
 
 
     def set_contours(self,levels=None,number=10,limits=None):

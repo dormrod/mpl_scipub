@@ -80,12 +80,14 @@ class Plot:
         
         :param legend: turn legend on or off
         :type legend: bool
-        :param legend_title: set legend title
-        :type legend_title: str
-        :param legend_columns: number of columns in legend
-        :type legend_columns: int
-        :param legend_reverse: reverse order of legend 
-        :type legend_reverse: bool
+        :param title: set legend title
+        :type title: str
+        :param columns: number of columns in legend
+        :type columns: int
+        :param reverse: reverse order of legend 
+        :type reverse: bool
+        :param location: location ('upper left' etc.)
+        :param location: str
         """
 
         self.legend = kwargs.get("legend", False)
@@ -93,6 +95,7 @@ class Plot:
         self.legend_columns = kwargs.get("cols", 1)
         self.legend_anchor = kwargs.get("anchor", None)
         self.legend_reverse = kwargs.get("reverse", False)
+        self.legend_location = kwargs.get("location", 'best')
 
 
     def set_dimensions(self,dim=2):
@@ -249,9 +252,10 @@ class Plot:
         """Line graph with symmetric errors in 2D"""
 
         self.ax.errorbar(dataset.data[:,0], dataset.data[:,1], xerr=dataset.error_x, yerr=dataset.error_y,
-                     label= dataset.label, zorder=dataset.zorder,
+                     label= dataset.label, zorder=dataset.zorder, errorevery=dataset.error_interval,
                      marker=dataset.marker_style, ms=dataset.marker_size,
                      lw=dataset.line_width, ls=dataset.line_style,
+                     elinewidth=dataset.error_width, capsize=dataset.error_cap,
                      color=dataset.colour)
 
 
@@ -315,31 +319,51 @@ class Plot:
             pass
         else:
             # Axes properties
+            # Labels
             self.ax.set_xlabel(self.axis_xlabel)
             self.ax.set_ylabel(self.axis_ylabel)
+            # Limits
             if self.axis_xlim is not None: self.ax.set_xlim(self.axis_xlim)
-            if self.axis_ylim is not None: self.ax.set_xlim(self.axis_xlim)
+            if self.axis_ylim is not None: self.ax.set_ylim(self.axis_ylim)
+            # X ticks
             if self.axis_xticks is not None:
-                majorLocator = ticker.MultipleLocator(self.axis_xticks[0])
-                minorLocator = ticker.MultipleLocator(self.axis_xticks[1])
-                self.ax.xaxis.set_major_locator(majorLocator)
-                self.ax.xaxis.set_minor_locator(minorLocator)
+                major_locator = ticker.MultipleLocator(self.axis_xticks[0])
+                minor_locator = ticker.MultipleLocator(self.axis_xticks[1])
+            else:
+                major_locator = self.ax.xaxis.get_major_locator()
+                auto_major = major_locator()
+                if len(auto_major)>1:
+                    auto_minor = (auto_major[1]-auto_major[0])/5
+                    minor_locator = ticker.MultipleLocator(auto_minor)
+                else:
+                    minor_locator = major_locator
+            self.ax.xaxis.set_major_locator(major_locator)
+            self.ax.xaxis.set_minor_locator(minor_locator)
+            # Y ticks
             if self.axis_yticks is not None:
-                majorLocator = ticker.MultipleLocator(self.axis_yticks[0])
-                minorLocator = ticker.MultipleLocator(self.axis_yticks[1])
-                self.ax.yaxis.set_major_locator(majorLocator)
-                self.ax.yaxis.set_minor_locator(minorLocator)
+                major_locator = ticker.MultipleLocator(self.axis_yticks[0])
+                minor_locator = ticker.MultipleLocator(self.axis_yticks[1])
+            else:
+                major_locator = self.ax.yaxis.get_major_locator()
+                auto_major = major_locator()
+                if len(auto_major)>1:
+                    auto_minor = (auto_major[1]-auto_major[0])/5
+                    minor_locator = ticker.MultipleLocator(auto_minor)
+                else:
+                    minor_locator = major_locator
+            self.ax.yaxis.set_minor_locator(minor_locator)
+            self.ax.yaxis.set_major_locator(major_locator)
+            # Log scales
             if self.axis_xlog: self.ax.set_xscale('log')
             if self.axis_ylog: self.ax.set_yscale('log')
             if self.dimensions == 3:
                 # 3D additions
                 self.ax.set_zlabel(self.axis_zlabel)
                 if self.axis_zlim is not None: self.ax.set_zlim(self.axis_zlim)
+                # No minor locator in 3D
                 if self.axis_zticks is not None:
-                    majorLocator = ticker.MultipleLocator(self.axis_zticks[0])
-                    minorLocator = ticker.MultipleLocator(self.axis_zticks[1])
-                    self.ax.zaxis.set_major_locator(majorLocator)
-                    self.ax.zaxis.set_minor_locator(minorLocator)
+                    major_locator = ticker.MultipleLocator(self.axis_zticks[0])
+                    self.ax.zaxis.set_major_locator(major_locator)
                 if self.axis_zlog: self.ax.set_zscale('log')
                 # Set 3D specific options
                 self.ax.view_init(elev=self.view_elevation,azim=self.view_angle)
@@ -361,12 +385,14 @@ class Plot:
                     handles = handles[::-1]
                     labels = labels[::-1]
                 if self.legend_anchor is None:
-                    legend = self.ax.legend(handles, labels, title=self.legend_title, ncol=self.legend_columns)
+                    legend = self.ax.legend(handles, labels, title=self.legend_title,
+                                            ncol=self.legend_columns, loc=self.legend_location)
                 else:
                     legend = self.ax.legend(handles, labels, title=self.legend_title, ncol=self.legend_columns,
                                              bbox_to_anchor=self.legend_anchor)
                 legend.get_frame().set_edgecolor('grey')
-
+            # Reset ids to reuse auto-colours and markers
+            self.datasets[0].__class__.auto_id = 0
             self.finalised = True
 
 
