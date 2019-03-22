@@ -6,7 +6,7 @@ import numpy as np
 
 
 class Plot:
-    """Plot wide variety of matplotlib graphs with common interface"""
+    """Plot DataSet objects with matplotlib."""
 
 
     ##### Functions to control plot settings #####
@@ -26,14 +26,14 @@ class Plot:
 
 
     def set_plot_size(self, width = 4, height = 4):
-        """Set plot size in cm"""
+        """Set plot size in cm."""
 
         params = {"figure.figsize": (width, height)}
         pylab.rcParams.update(params)
 
 
     def set_text_size(self, legend = 10, title = 10, label = 10):
-        """Set font, title and label size"""
+        """Set text size."""
 
         params = {"legend.title_fontsize": legend,
                   "legend.fontsize": legend,
@@ -45,7 +45,18 @@ class Plot:
 
 
     def set_legend(self,**kwargs):
-        """Set legend properties"""
+        """
+        Set legend properties.
+        
+        :param legend: turn legend on or off
+        :type legend: bool
+        :param legend_title: set legend title
+        :type legend_title: str
+        :param legend_columns: number of columns in legend
+        :type legend_columns: int
+        :param legend_reverse: reverse order of legend 
+        :type legend_reverse: bool
+        """
 
         self.legend = kwargs.get("legend", False)
         self.legend_title = kwargs.get("title", None)
@@ -55,7 +66,7 @@ class Plot:
 
 
     def set_dimensions(self,dim=2):
-        """Set dimensionality of plot, default 2D"""
+        """Set dimensionality of plot."""
 
         if dim<2 or dim>3:
             print("Must be 2D or 3D")
@@ -64,7 +75,18 @@ class Plot:
 
 
     def set_axes(self, **kwargs):
-        """Sets axes labels, limits and ticks etc."""
+        """
+        Sets axes properties for x,y,z axes.
+        
+        :param xlabel: x-axis label
+        :type xlabel: str
+        :param xlim: x-axis limits 
+        :type xlim: tuple
+        :param xticks: positions of major and minor ticks
+        :type xticks: tuple
+        :param xlog: use logarithmic scale for x-axis
+        :type xlog: bool
+        """
 
         self.axis_xlabel = kwargs.get("xlabel", "X")
         self.axis_ylabel = kwargs.get("ylabel", "Y")
@@ -82,8 +104,8 @@ class Plot:
 
     ##### Functions to add data sets #####
 
-    def add_dataset(self,dataset,**kwargs):
-        """Add DataSet object"""
+    def add_dataset(self,dataset):
+        """Add DataSet object."""
 
         try:
             self.datasets.append(dataset) # Append to data sets
@@ -110,7 +132,7 @@ class Plot:
 
 
     def plot(self):
-        """Plot each data set"""
+        """Plot graphs."""
 
         if self.dimensions == 2:
             self.initialise_plot()
@@ -285,7 +307,7 @@ class Plot:
     ##### Save or visualise #####
 
     def display(self):
-        """Display figure"""
+        """Display figure."""
 
         self.finalise_plot() # Apply final changes to plot
         plt.show()
@@ -294,7 +316,7 @@ class Plot:
 
 
     def save(self, name="plot", fmt="pdf", dpi_quality=400):
-        """Save figure"""
+        """Save figure."""
 
         self.finalise_plot() # Apply final changes to plot
         filename = name+"."+fmt

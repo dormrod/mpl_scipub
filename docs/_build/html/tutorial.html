@@ -1,0 +1,426 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Tutorial &mdash; dormrod_mpl 0.01 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Examples" href="examples.html" />
+    <link rel="prev" title="Installation" href="installing.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> dormrod_mpl
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installing.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#the-dataset-class">The DataSet Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-plot-class">The Plot Class</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">dormrod_mpl</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Tutorial</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/tutorial.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="tutorial">
+<h1>Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this headline">¶</a></h1>
+<p>The package is based on two classes, <code class="docutils literal notranslate"><span class="pre">DataSet</span></code> and <code class="docutils literal notranslate"><span class="pre">Plot</span></code>. Each <code class="docutils literal notranslate"><span class="pre">DataSet</span></code> class holds cartesian coordinates and the intended plot type.
+These sets can then be added to a <code class="docutils literal notranslate"><span class="pre">Plot</span></code> object, which handles the plotting process.</p>
+<p>In general the package is designed to produce nice plots with as few settings as possible, but also for plots to be fully customisable if required.</p>
+<div class="section" id="the-dataset-class">
+<h2>The DataSet Class<a class="headerlink" href="#the-dataset-class" title="Permalink to this headline">¶</a></h2>
+<p>A simple example of of making two data sets is as follows:</p>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">dormrod_mpl.dataset</span> <span class="k">import</span> <span class="n">DataSet</span>
+
+<span class="c1"># Generate data</span>
+<span class="n">cosine</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">100</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">cosine</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">cosine</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">cosine</span><span class="p">[:,</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="n">random</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">50</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">random</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">50</span><span class="p">)</span>
+<span class="n">random</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">50</span><span class="p">)</span>
+<span class="n">random_size</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="mi">50</span><span class="p">)</span>
+<span class="n">random_colour</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">50</span><span class="p">)</span>
+
+<span class="c1"># Make DataSet specifying properties on instantiation</span>
+<span class="n">dataset_a</span> <span class="o">=</span> <span class="n">DataSet</span><span class="p">(</span><span class="n">cosine</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="s1">&#39;line&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;cosine&#39;</span><span class="p">,</span> <span class="n">colour</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">line_width</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="c1"># Make DataSet specifiying properties through setters</span>
+<span class="n">dataset_b</span> <span class="o">=</span> <span class="n">DataSet</span><span class="p">(</span><span class="n">random</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="s1">&#39;scatter&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;random&#39;</span><span class="p">)</span>
+<span class="n">dataset_b</span><span class="o">.</span><span class="n">set_marker</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="n">random_size</span><span class="p">)</span>
+<span class="n">dataset_b</span><span class="o">.</span><span class="n">set_colour</span><span class="p">(</span><span class="nb">map</span><span class="o">=</span><span class="s1">&#39;coolwarm&#39;</span><span class="p">,</span><span class="n">colour</span><span class="o">=</span><span class="n">random_colour</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The list of methods is given below.</p>
+<dl class="class">
+<dt id="dormrod_mpl.dataset.DataSet">
+<em class="property">class </em><code class="descclassname">dormrod_mpl.dataset.</code><code class="descname">DataSet</code><span class="sig-paren">(</span><em>data</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dormrod_mpl/dataset.html#DataSet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dormrod_mpl.dataset.DataSet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Holds data set and associated plot options.</p>
+<p>Can be initialised with</p>
+<dl class="method">
+<dt id="dormrod_mpl.dataset.DataSet.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>data</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dormrod_mpl/dataset.html#DataSet.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dormrod_mpl.dataset.DataSet.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Data as numpy array. Format depends on plot type but usually (n_points,2) for 2D plot and (n_points,3) for 3D plot.
+Can specifiy plot options through kwargs now, or later through setters.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>data</strong> (<em>np.ndarray</em>) – x,y,(z) data</li>
+<li><strong>error_y</strong> (<em>np.ndarray with n_points</em>) – symmetric errors in given direction</li>
+<li><strong>plot</strong> (<em>str</em>) – type of plot (line, scatter, bar ,error_bar, error_shade, heat, contour)</li>
+<li><strong>label</strong> (<em>str</em>) – data label for legend</li>
+<li><strong>order</strong> (<em>int</em>) – ordering of overlaid datasets, higher number on top</li>
+<li><strong>line_style</strong> (<em>str</em>) – line style (-,–,:,etc.)</li>
+<li><strong>int</strong> (<em>line_width</em><em>,</em>) – line width</li>
+<li><strong>marker_style</strong> (<em>int</em>) – marker style</li>
+<li><strong>marker_size</strong> (<em>float</em><em> or </em><em>np.ndarray</em>) – fixed size for marker or array of sizes</li>
+<li><strong>bar_width</strong> (<em>float</em>) – width of each bar in bar graph</li>
+<li><strong>contour_levels</strong> (<em>np.ndarray</em>) – specified levels to draw contours</li>
+<li><strong>contour_number</strong> (<em>int</em>) – number of contours to draw if levels not supplied</li>
+<li><strong>contour_limits</strong> (<em>tuple</em>) – lower and upper bounds for contours</li>
+<li><strong>colour</strong> (<em>str</em><em> or </em><em>np.ndarray</em>) – colour code for all data points or array of floats if using colour map</li>
+<li><strong>colour_map</strong> (<em>str</em>) – colour map</li>
+<li><strong>colour_norm</strong> (<em>tuple</em>) – normalisation condition for colour map</li>
+<li><strong>surface_interpolation</strong> (<em>str</em>) – interpolation type for surface plots</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dormrod_mpl.dataset.DataSet.set_bar">
+<code class="descname">set_bar</code><span class="sig-paren">(</span><em>width=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dormrod_mpl/dataset.html#DataSet.set_bar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dormrod_mpl.dataset.DataSet.set_bar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set bar width.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dormrod_mpl.dataset.DataSet.set_colour">
+<code class="descname">set_colour</code><span class="sig-paren">(</span><em>colour=None</em>, <em>map=None</em>, <em>norm=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dormrod_mpl/dataset.html#DataSet.set_colour"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dormrod_mpl.dataset.DataSet.set_colour" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set colour as individual or map.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dormrod_mpl.dataset.DataSet.set_contours">
+<code class="descname">set_contours</code><span class="sig-paren">(</span><em>levels=None</em>, <em>number=10</em>, <em>limits=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dormrod_mpl/dataset.html#DataSet.set_contours"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dormrod_mpl.dataset.DataSet.set_contours" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set contour properties.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dormrod_mpl.dataset.DataSet.set_line">
+<code class="descname">set_line</code><span class="sig-paren">(</span><em>style='-'</em>, <em>width=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dormrod_mpl/dataset.html#DataSet.set_line"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dormrod_mpl.dataset.DataSet.set_line" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set line style and width.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dormrod_mpl.dataset.DataSet.set_marker">
+<code class="descname">set_marker</code><span class="sig-paren">(</span><em>style=None</em>, <em>size=10</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dormrod_mpl/dataset.html#DataSet.set_marker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dormrod_mpl.dataset.DataSet.set_marker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set marker style and size.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="the-plot-class">
+<h2>The Plot Class<a class="headerlink" href="#the-plot-class" title="Permalink to this headline">¶</a></h2>
+<p>The data sets abbove can be plotted using the plot class as follows:</p>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dormrod_mpl.plotter</span> <span class="k">import</span> <span class="n">Plot</span>
+
+<span class="c1"># Make Plot class and add DataSets</span>
+<span class="n">plot</span> <span class="o">=</span> <span class="n">Plot</span><span class="p">()</span>
+<span class="n">plot</span><span class="o">.</span><span class="n">add_dataset</span><span class="p">(</span><span class="n">dataset_a</span><span class="p">)</span>
+<span class="n">plot</span><span class="o">.</span><span class="n">add_dataset</span><span class="p">(</span><span class="n">dataset_b</span><span class="p">)</span>
+
+<span class="c1"># Adjust plot properties</span>
+<span class="n">plot</span><span class="o">.</span><span class="n">set_axes</span><span class="p">(</span><span class="n">xlim</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">10</span><span class="p">),</span><span class="n">xticks</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mf">0.2</span><span class="p">),</span><span class="n">yticks</span><span class="o">=</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span><span class="mf">0.05</span><span class="p">),</span><span class="n">xlabel</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;$x$&#39;</span><span class="p">,</span><span class="n">ylabel</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;$f\left(x\right)$&#39;</span><span class="p">)</span> <span class="c1"># Latex-style labels</span>
+
+<span class="c1"># Plot graphs</span>
+<span class="n">plot</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">plot</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;png&#39;</span><span class="p">)</span>
+<span class="n">plot</span><span class="o">.</span><span class="n">display</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/tutorial.png"><img alt="_images/tutorial.png" src="_images/tutorial.png" style="width: 400px;" /></a>
+</div>
+<p>The list methods is given below.</p>
+<dl class="class">
+<dt id="dormrod_mpl.plotter.Plot">
+<em class="property">class </em><code class="descclassname">dormrod_mpl.plotter.</code><code class="descname">Plot</code><a class="reference internal" href="_modules/dormrod_mpl/plotter.html#Plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dormrod_mpl.plotter.Plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot DataSet objects with matplotlib.</p>
+<dl class="method">
+<dt id="dormrod_mpl.plotter.Plot.add_dataset">
+<code class="descname">add_dataset</code><span class="sig-paren">(</span><em>dataset</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dormrod_mpl/plotter.html#Plot.add_dataset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dormrod_mpl.plotter.Plot.add_dataset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add DataSet object.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dormrod_mpl.plotter.Plot.display">
+<code class="descname">display</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dormrod_mpl/plotter.html#Plot.display"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dormrod_mpl.plotter.Plot.display" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display figure.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dormrod_mpl.plotter.Plot.plot">
+<code class="descname">plot</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dormrod_mpl/plotter.html#Plot.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dormrod_mpl.plotter.Plot.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot graphs.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dormrod_mpl.plotter.Plot.save">
+<code class="descname">save</code><span class="sig-paren">(</span><em>name='plot'</em>, <em>fmt='pdf'</em>, <em>dpi_quality=400</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dormrod_mpl/plotter.html#Plot.save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dormrod_mpl.plotter.Plot.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save figure.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dormrod_mpl.plotter.Plot.set_axes">
+<code class="descname">set_axes</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dormrod_mpl/plotter.html#Plot.set_axes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dormrod_mpl.plotter.Plot.set_axes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets axes properties for x,y,z axes.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>xlabel</strong> (<em>str</em>) – x-axis label</li>
+<li><strong>xlim</strong> (<em>tuple</em>) – x-axis limits</li>
+<li><strong>xticks</strong> (<em>tuple</em>) – positions of major and minor ticks</li>
+<li><strong>xlog</strong> – use logarithmic scale for x-axis</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Type:</th><td class="field-body"><p class="first last">bool</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dormrod_mpl.plotter.Plot.set_dimensions">
+<code class="descname">set_dimensions</code><span class="sig-paren">(</span><em>dim=2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dormrod_mpl/plotter.html#Plot.set_dimensions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dormrod_mpl.plotter.Plot.set_dimensions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set dimensionality of plot.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dormrod_mpl.plotter.Plot.set_legend">
+<code class="descname">set_legend</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dormrod_mpl/plotter.html#Plot.set_legend"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dormrod_mpl.plotter.Plot.set_legend" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set legend properties.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>legend</strong> (<em>bool</em>) – turn legend on or off</li>
+<li><strong>legend_title</strong> (<em>str</em>) – set legend title</li>
+<li><strong>legend_columns</strong> (<em>int</em>) – number of columns in legend</li>
+<li><strong>legend_reverse</strong> (<em>bool</em>) – reverse order of legend</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dormrod_mpl.plotter.Plot.set_plot_size">
+<code class="descname">set_plot_size</code><span class="sig-paren">(</span><em>width=4</em>, <em>height=4</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dormrod_mpl/plotter.html#Plot.set_plot_size"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dormrod_mpl.plotter.Plot.set_plot_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set plot size in cm.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dormrod_mpl.plotter.Plot.set_text_size">
+<code class="descname">set_text_size</code><span class="sig-paren">(</span><em>legend=10</em>, <em>title=10</em>, <em>label=10</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dormrod_mpl/plotter.html#Plot.set_text_size"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dormrod_mpl.plotter.Plot.set_text_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set text size.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="examples.html" class="btn btn-neutral float-right" title="Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="installing.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, dormrod
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

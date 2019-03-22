@@ -1,0 +1,389 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>dormrod_mpl.dataset &mdash; dormrod_mpl 0.01 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> dormrod_mpl
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installing.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples.html">Examples</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">dormrod_mpl</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>dormrod_mpl.dataset</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for dormrod_mpl.dataset</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span> <span class="k">as</span> <span class="nn">mpl</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">matplotlib.colors</span> <span class="k">import</span> <span class="n">Normalize</span>
+
+
+<div class="viewcode-block" id="DataSet"><a class="viewcode-back" href="../../tutorial.html#dormrod_mpl.dataset.DataSet">[docs]</a><span class="k">class</span> <span class="nc">DataSet</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Holds data set and associated plot options. </span>
+<span class="sd">    </span>
+<span class="sd">    Can be initialised with </span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Static variables to set different automatic styles for colours, markers etc.</span>
+    <span class="n">auto_id</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">auto_markers</span> <span class="o">=</span> <span class="n">mpl</span><span class="o">.</span><span class="n">markers</span><span class="o">.</span><span class="n">MarkerStyle</span><span class="p">()</span><span class="o">.</span><span class="n">filled_markers</span>
+    <span class="n">auto_colours</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">get_cmap</span><span class="p">(</span><span class="s1">&#39;Set1&#39;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="DataSet.__init__"><a class="viewcode-back" href="../../tutorial.html#dormrod_mpl.dataset.DataSet.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">data</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Data as numpy array. Format depends on plot type but usually (n_points,2) for 2D plot and (n_points,3) for 3D plot.</span>
+<span class="sd">        Can specifiy plot options through kwargs now, or later through setters.</span>
+<span class="sd">        </span>
+<span class="sd">        :param data: x,y,(z) data</span>
+<span class="sd">        :type data: np.ndarray</span>
+<span class="sd">        :param error_y: symmetric errors in given direction</span>
+<span class="sd">        :type error_y: np.ndarray with n_points</span>
+<span class="sd">        :param plot: type of plot (line, scatter, bar ,error_bar, error_shade, heat, contour)</span>
+<span class="sd">        :type plot: str</span>
+<span class="sd">        :param label: data label for legend</span>
+<span class="sd">        :type label: str</span>
+<span class="sd">        :param order: ordering of overlaid datasets, higher number on top</span>
+<span class="sd">        :type order: int</span>
+<span class="sd">        :param line_style: line style (-,--,:,etc.)</span>
+<span class="sd">        :type line_style: str</span>
+<span class="sd">        :param line_width, int: line width</span>
+<span class="sd">        :type line_width: float</span>
+<span class="sd">        :param marker_style: marker style</span>
+<span class="sd">        :type marker_style: int</span>
+<span class="sd">        :param marker_size: fixed size for marker or array of sizes</span>
+<span class="sd">        :type marker_size: float or np.ndarray</span>
+<span class="sd">        :param bar_width: width of each bar in bar graph</span>
+<span class="sd">        :type bar_width: float</span>
+<span class="sd">        :param contour_levels: specified levels to draw contours</span>
+<span class="sd">        :type contour_levels: np.ndarray</span>
+<span class="sd">        :param contour_number: number of contours to draw if levels not supplied</span>
+<span class="sd">        :type contour_number: int</span>
+<span class="sd">        :param contour_limits: lower and upper bounds for contours</span>
+<span class="sd">        :type contour_limits: tuple</span>
+<span class="sd">        :param colour: colour code for all data points or array of floats if using colour map</span>
+<span class="sd">        :type colour: str or np.ndarray</span>
+<span class="sd">        :param colour_map: colour map </span>
+<span class="sd">        :type colour_map: str </span>
+<span class="sd">        :param colour_norm: normalisation condition for colour map</span>
+<span class="sd">        :type colour_norm: tuple</span>
+<span class="sd">        :param surface_interpolation: interpolation type for surface plots</span>
+<span class="sd">        :type surface_interpolation: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">auto_id</span> <span class="c1"># Set id for default properties</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="c1"># Ensure data stored as numpy array</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;label&#39;</span><span class="p">,</span><span class="s1">&#39;data_</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">))</span> <span class="c1"># Label for legend</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">zorder</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;order&#39;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">)</span> <span class="c1"># Overlay order - default in order created</span>
+
+        <span class="c1"># Data errors</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">error_x</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;error_x&#39;</span><span class="p">,</span><span class="kc">None</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">error_y</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;error_y&#39;</span><span class="p">,</span><span class="kc">None</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">error_style</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;error_style&#39;</span><span class="p">,</span><span class="s1">&#39;bar&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Choose suitable default plot type or get user choice</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">error_x</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">error_y</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">error_style</span> <span class="o">==</span> <span class="s1">&#39;bar&#39;</span><span class="p">:</span>
+                <span class="n">default_plot_type</span> <span class="o">=</span> <span class="s1">&#39;error_bar&#39;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">default_plot_type</span> <span class="o">=</span> <span class="s1">&#39;error_shade&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">default_plot_type</span> <span class="o">=</span> <span class="s1">&#39;line&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">plot_type</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;plot&#39;</span><span class="p">,</span><span class="n">default_plot_type</span><span class="p">)</span>
+
+        <span class="c1"># Markers</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">plot_type</span> <span class="o">==</span> <span class="s1">&#39;scatter&#39;</span><span class="p">:</span>
+            <span class="n">default_marker_size</span> <span class="o">=</span> <span class="mi">10</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">default_marker_size</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">marker_style</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;marker_style&#39;</span><span class="p">,</span><span class="kc">None</span><span class="p">)</span>
+        <span class="n">marker_size</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;marker_size&#39;</span><span class="p">,</span><span class="n">default_marker_size</span><span class="p">)</span> <span class="c1"># Float or array of floats</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_marker</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="n">marker_style</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="n">marker_size</span><span class="p">)</span>
+
+        <span class="c1"># Line</span>
+        <span class="n">line_style</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;line_style&#39;</span><span class="p">,</span><span class="s1">&#39;-&#39;</span><span class="p">)</span>
+        <span class="n">line_width</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;line_width&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_line</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="n">line_style</span><span class="p">,</span><span class="n">width</span><span class="o">=</span><span class="n">line_width</span><span class="p">)</span>
+
+        <span class="c1"># Bar</span>
+        <span class="n">bar_width</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;bar_width&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_bar</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">bar_width</span><span class="p">)</span>
+
+        <span class="c1"># Colours</span>
+        <span class="n">colour</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;colour&#39;</span><span class="p">,</span><span class="kc">None</span><span class="p">)</span> <span class="c1"># Colour or array of floats</span>
+        <span class="n">colour_map</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;colour_map&#39;</span><span class="p">,</span><span class="kc">None</span><span class="p">)</span>
+        <span class="n">colour_norm</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;colour_norm&#39;</span><span class="p">,</span><span class="kc">None</span><span class="p">)</span> <span class="c1"># Normalisation bounds</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_colour</span><span class="p">(</span><span class="n">colour</span><span class="o">=</span><span class="n">colour</span><span class="p">,</span><span class="nb">map</span><span class="o">=</span><span class="n">colour_map</span><span class="p">,</span><span class="n">norm</span><span class="o">=</span><span class="n">colour_norm</span><span class="p">)</span>
+
+        <span class="c1"># Surface</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">surface_interpolation</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;surface_interpolation&#39;</span><span class="p">,</span><span class="kc">None</span><span class="p">)</span>
+
+        <span class="c1"># Contours</span>
+        <span class="n">contour_levels</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;contour_levels&#39;</span><span class="p">,</span><span class="kc">None</span><span class="p">)</span>
+        <span class="n">contour_number</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;contour_number&#39;</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
+        <span class="n">contour_limits</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;contour_limits&#39;</span><span class="p">,</span><span class="kc">None</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_contours</span><span class="p">(</span><span class="n">levels</span><span class="o">=</span><span class="n">contour_levels</span><span class="p">,</span><span class="n">number</span><span class="o">=</span><span class="n">contour_number</span><span class="p">,</span><span class="n">limits</span><span class="o">=</span><span class="n">contour_limits</span><span class="p">)</span>
+
+        <span class="c1"># Increment unique id</span>
+        <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">auto_id</span> <span class="o">+=</span> <span class="mi">1</span></div>
+
+
+<div class="viewcode-block" id="DataSet.set_line"><a class="viewcode-back" href="../../tutorial.html#dormrod_mpl.dataset.DataSet.set_line">[docs]</a>    <span class="k">def</span> <span class="nf">set_line</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">style</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span><span class="n">width</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set line style and width.&quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">line_style</span> <span class="o">=</span> <span class="n">style</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">line_width</span> <span class="o">=</span> <span class="n">width</span></div>
+
+
+<div class="viewcode-block" id="DataSet.set_bar"><a class="viewcode-back" href="../../tutorial.html#dormrod_mpl.dataset.DataSet.set_bar">[docs]</a>    <span class="k">def</span> <span class="nf">set_bar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">width</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set bar width.&quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">bar_width</span> <span class="o">=</span> <span class="n">width</span></div>
+
+
+<div class="viewcode-block" id="DataSet.set_marker"><a class="viewcode-back" href="../../tutorial.html#dormrod_mpl.dataset.DataSet.set_marker">[docs]</a>    <span class="k">def</span> <span class="nf">set_marker</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">style</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set marker style and size.&quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">style</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">size</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">marker_style</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">auto_markers</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="n">size</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">marker_style</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">auto_markers</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">marker_style</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">marker_style</span> <span class="o">=</span> <span class="n">style</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">marker_size</span> <span class="o">=</span> <span class="n">size</span></div>
+
+
+<div class="viewcode-block" id="DataSet.set_contours"><a class="viewcode-back" href="../../tutorial.html#dormrod_mpl.dataset.DataSet.set_contours">[docs]</a>    <span class="k">def</span> <span class="nf">set_contours</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">levels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">number</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span><span class="n">limits</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set contour properties.&quot;&quot;&quot;</span>
+
+        <span class="c1"># User defined levels take precedence, otherwise generate from data</span>
+        <span class="k">if</span> <span class="n">levels</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">contour_levels</span> <span class="o">=</span> <span class="n">levels</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">limits</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">contour_levels</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">limits</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">limits</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">number</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">contour_levels</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">2</span><span class="p">]),</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">2</span><span class="p">]),</span><span class="n">number</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="DataSet.set_colour"><a class="viewcode-back" href="../../tutorial.html#dormrod_mpl.dataset.DataSet.set_colour">[docs]</a>    <span class="k">def</span> <span class="nf">set_colour</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">colour</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="nb">map</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">norm</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set colour as individual or map.&quot;&quot;&quot;</span>
+
+        <span class="c1"># Require normalised colour map for certain plots</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">plot_type</span> <span class="o">==</span> <span class="s1">&#39;heat&#39;</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">plot_type</span> <span class="o">==</span> <span class="s1">&#39;contour&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">map</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">colour_map</span> <span class="o">=</span> <span class="nb">map</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">colour_map</span> <span class="o">=</span> <span class="s1">&#39;coolwarm&#39;</span>
+            <span class="k">if</span> <span class="n">norm</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">colour_norm</span> <span class="o">=</span> <span class="n">Normalize</span><span class="p">(</span><span class="n">vmin</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">2</span><span class="p">]),</span><span class="n">vmax</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">colour_norm</span> <span class="o">=</span> <span class="n">Normalize</span><span class="p">(</span><span class="n">vmin</span><span class="o">=</span><span class="n">norm</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">vmax</span><span class="o">=</span><span class="n">norm</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="k">return</span>
+
+        <span class="c1"># No colour use map</span>
+        <span class="k">if</span> <span class="n">colour</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># No map use automatic map</span>
+            <span class="k">if</span> <span class="nb">map</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">auto_colours</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">get_cmap</span><span class="p">(</span><span class="nb">map</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">colour</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">auto_colours</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">colour_map</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="c1"># Use single colour</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">colour</span><span class="p">,</span><span class="nb">str</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">colour</span> <span class="o">=</span> <span class="n">colour</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">colour_map</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="c1"># Use colour map with normalisation and colours as array of floats</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">colour</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">colour</span> <span class="o">=</span> <span class="n">colour</span>
+            <span class="k">if</span> <span class="nb">map</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">colour_map</span> <span class="o">=</span> <span class="nb">map</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">colour_map</span> <span class="o">=</span> <span class="s1">&#39;coolwarm&#39;</span>
+            <span class="k">if</span> <span class="n">norm</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">colour_norm</span> <span class="o">=</span> <span class="n">Normalize</span><span class="p">(</span><span class="n">vmin</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">colour</span><span class="p">),</span><span class="n">vmax</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">colour</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">colour_norm</span> <span class="o">=</span> <span class="n">Normalize</span><span class="p">(</span><span class="n">vmin</span><span class="o">=</span><span class="n">norm</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">vmax</span><span class="o">=</span><span class="n">norm</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span></div></div>
+
+
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, dormrod
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

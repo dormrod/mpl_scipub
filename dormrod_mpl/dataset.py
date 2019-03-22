@@ -5,7 +5,12 @@ from matplotlib.colors import Normalize
 
 
 class DataSet:
-    """Holds data set and plotting properties"""
+    """
+    Holds data set and associated plot options. 
+    
+    Can be initialised with 
+    
+    """
 
     # Static variables to set different automatic styles for colours, markers etc.
     auto_id = 0
@@ -14,7 +19,45 @@ class DataSet:
 
 
     def __init__(self,data,**kwargs):
-        """Initialise with data and plot properties"""
+        """
+        Data as numpy array. Format depends on plot type but usually (n_points,2) for 2D plot and (n_points,3) for 3D plot.
+        Can specifiy plot options through kwargs now, or later through setters.
+        
+        :param data: x,y,(z) data
+        :type data: np.ndarray
+        :param error_y: symmetric errors in given direction
+        :type error_y: np.ndarray with n_points
+        :param plot: type of plot (line, scatter, bar ,error_bar, error_shade, heat, contour)
+        :type plot: str
+        :param label: data label for legend
+        :type label: str
+        :param order: ordering of overlaid datasets, higher number on top
+        :type order: int
+        :param line_style: line style (-,--,:,etc.)
+        :type line_style: str
+        :param line_width, int: line width
+        :type line_width: float
+        :param marker_style: marker style
+        :type marker_style: int
+        :param marker_size: fixed size for marker or array of sizes
+        :type marker_size: float or np.ndarray
+        :param bar_width: width of each bar in bar graph
+        :type bar_width: float
+        :param contour_levels: specified levels to draw contours
+        :type contour_levels: np.ndarray
+        :param contour_number: number of contours to draw if levels not supplied
+        :type contour_number: int
+        :param contour_limits: lower and upper bounds for contours
+        :type contour_limits: tuple
+        :param colour: colour code for all data points or array of floats if using colour map
+        :type colour: str or np.ndarray
+        :param colour_map: colour map 
+        :type colour_map: str 
+        :param colour_norm: normalisation condition for colour map
+        :type colour_norm: tuple
+        :param surface_interpolation: interpolation type for surface plots
+        :type surface_interpolation: str
+        """
 
         # Data
         self.id = self.__class__.auto_id # Set id for default properties
@@ -75,20 +118,20 @@ class DataSet:
 
 
     def set_line(self,style='-',width=1):
-        """Set line style and width"""
+        """Set line style and width."""
 
         self.line_style = style
         self.line_width = width
 
 
     def set_bar(self,width=1):
-        """Set bar width"""
+        """Set bar width."""
 
         self.bar_width = width
 
 
     def set_marker(self,style=None,size=10):
-        """Set marker style and size"""
+        """Set marker style and size."""
 
         if style is None:
             if isinstance(size,np.ndarray):
@@ -103,7 +146,7 @@ class DataSet:
 
 
     def set_contours(self,levels=None,number=10,limits=None):
-        """Set contour properties"""
+        """Set contour properties."""
 
         # User defined levels take precedence, otherwise generate from data
         if levels is not None:
@@ -116,7 +159,7 @@ class DataSet:
 
 
     def set_colour(self,colour=None,map=None,norm=None):
-        """Set as individual colour or map"""
+        """Set colour as individual or map."""
 
         # Require normalised colour map for certain plots
         if self.plot_type == 'heat' or self.plot_type == 'contour':
