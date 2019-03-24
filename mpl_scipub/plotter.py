@@ -329,52 +329,48 @@ class Plot:
             self.ax.set_ylabel(self.axis_ylabel)
             # X ticks
             if self.axis_xticks is not None:
-                x_major_locator = ticker.MultipleLocator(self.axis_xticks[0])
-                x_minor_locator = ticker.MultipleLocator(self.axis_xticks[1])
+                x_major = self.axis_xticks[0]
+                x_minor = self.axis_xticks[1]
             else:
                 x_major_locator = self.ax.xaxis.get_major_locator()
                 auto_major = x_major_locator()
-                if len(auto_major)>1:
-                    auto_minor = (auto_major[1]-auto_major[0])/5
-                    x_minor_locator = ticker.MultipleLocator(auto_minor)
-                else:
-                    x_minor_locator = x_major_locator
-            self.ax.xaxis.set_major_locator(x_major_locator)
-            self.ax.xaxis.set_minor_locator(x_minor_locator)
+                x_major = auto_major[1]-auto_major[0]
+                x_minor = x_major/5
             # Y ticks
             if self.axis_yticks is not None:
-                y_major_locator = ticker.MultipleLocator(self.axis_yticks[0])
-                y_minor_locator = ticker.MultipleLocator(self.axis_yticks[1])
+                y_major = self.axis_yticks[0]
+                y_minor = self.axis_yticks[1]
             else:
                 y_major_locator = self.ax.yaxis.get_major_locator()
                 auto_major = y_major_locator()
-                if len(auto_major)>1:
-                    auto_minor = (auto_major[1]-auto_major[0])/5
-                    y_minor_locator = ticker.MultipleLocator(auto_minor)
-                else:
-                    y_minor_locator = y_major_locator
-            self.ax.yaxis.set_minor_locator(y_minor_locator)
-            self.ax.yaxis.set_major_locator(y_major_locator)
+                y_major = auto_major[1]-auto_major[0]
+                y_minor = y_major/5
             # X limits
             if self.axis_xlim is not None:
                 self.ax.set_xlim(self.axis_xlim)
             else:
                 auto_xlim=self.ax.get_xlim()
-                major_tick=x_major_locator()[1]-x_major_locator()[0]
-                xlim=[np.round(auto_xlim[0]/major_tick)*major_tick,np.round(auto_xlim[1]/major_tick)*major_tick]
+                xlim=[np.round(auto_xlim[0]/x_major)*x_major,np.round(auto_xlim[1]/x_major)*x_major]
                 # if xlim[0]>auto_xlim[0]: xlim[0]-=major_tick
                 # if xlim[1]<auto_xlim[1]: xlim[1]+=major_tick
                 self.ax.set_xlim(xlim)
+            x_minor_locator = ticker.MultipleLocator(x_minor)
+            x_major_locator = ticker.MultipleLocator(x_major)
+            self.ax.xaxis.set_minor_locator(x_minor_locator)
+            self.ax.xaxis.set_major_locator(x_major_locator)
             # Y limits
             if self.axis_ylim is not None:
                 self.ax.set_ylim(self.axis_ylim)
             else:
                 auto_ylim=self.ax.get_ylim()
-                major_tick=y_major_locator()[1]-y_major_locator()[0]
-                ylim=[(np.round(auto_ylim[0]/major_tick)-0.5)*major_tick,(np.round(auto_ylim[1]/major_tick)+0.5)*major_tick]
+                ylim=[(np.round(auto_ylim[0]/y_major)-0.5)*y_major,(np.round(auto_ylim[1]/y_major)+0.5)*y_major]
                 # if ylim[0]>auto_ylim[0]: ylim[0]-=major_tick
                 # if ylim[1]<auto_ylim[1]: ylim[1]+=major_tick
                 self.ax.set_ylim(ylim)
+            y_minor_locator = ticker.MultipleLocator(y_minor)
+            y_major_locator = ticker.MultipleLocator(y_major)
+            self.ax.yaxis.set_minor_locator(y_minor_locator)
+            self.ax.yaxis.set_major_locator(y_major_locator)
             # Log scales
             if self.axis_xlog: self.ax.set_xscale('log')
             if self.axis_ylog: self.ax.set_yscale('log')

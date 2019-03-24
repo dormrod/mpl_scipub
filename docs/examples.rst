@@ -50,3 +50,17 @@ The code for the following examples can be found in the relevant subdirectory on
    :width: 400px
 
    2D examples: simple bar graph.
+
+
+.. figure::  ../examples/figures/2d_heat.png
+   :align:   center
+   :width: 400px
+
+   2D examples: heatmap.
+
+
+.. figure::  ../examples/figures/2d_contour.png
+   :align:   center
+   :width: 400px
+
+   2D examples: contour plot.
