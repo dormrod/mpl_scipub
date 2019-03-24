@@ -11,7 +11,7 @@ class Plot:
 
     ##### Functions to control plot settings #####
 
-    def __init__(self,dim=2,elevation=None,angle=None):
+    def __init__(self,dim=2,elevation=20,angle=130):
         """Set default parameters"""
 
         self.num_datasets = 0 # Total number of added data sets

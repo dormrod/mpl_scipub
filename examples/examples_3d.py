@@ -16,7 +16,7 @@ random_3d_b = np.random.rand(n_pnts,3)
 # Functions
 n_pnts = 1000
 heart = np.zeros((n_pnts,3))
-heart_z = np.linspace(0.0,50.0,n_pnts)
+heart_z = np.linspace(0.0,30.0,n_pnts)
 heart_x = 16.0*np.sin(heart_z)**3
 heart_y = 13.0*np.cos(heart_z)-5.0*np.cos(2.0*heart_z)-2.0*np.cos(3.0*heart_z)-np.cos(4.0*heart_z)
 heart[:,0] = heart_x
@@ -28,14 +28,14 @@ func_1 = (mesh_x**2+mesh_y**2)*np.exp(-(mesh_x**2+mesh_y**2))
 ##### Examples #####
 
 def simple_line():
-    """Example of two overlaid line graphs"""
+    """Example of parametric line graph"""
 
     # Make datasets
     dataset_a = DataSet(heart,plot='line')
 
     # Make plot and add data
-    plot = Plot()
-    plot.set_dimensions(dim=3)
+    plot = Plot(dim=3,elevation=115,angle=-90)
+    plot.set_axes(xlim=(-20,20),ylim=(-20,20),zlim=(-5,35),xticks=(10,10),yticks=())
     plot.add_dataset(dataset_a)
 
     # Plot graph and display

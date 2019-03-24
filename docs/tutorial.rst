@@ -69,5 +69,5 @@ The data sets abbove can be plotted using the plot class as follows:
 
 The list methods is given below.
 
-.. autoclass:: dormrod_mpl.plotter.Plot
+.. autoclass:: mpl_scipub.plotter.Plot
     :members: add_dataset, set_plot_size, set_text, set_legend, set_dimensions, set_axes, set_view, plot, display, save
